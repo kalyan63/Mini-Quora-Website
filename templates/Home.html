@@ -1,7 +1,6 @@
 {% extends 'Base.html' %}
 {% block Body %}
-
-
-<h3> Logged in Successfully </h3>
-<p> welcome {{session['username']}}</p>
+<h3 class="text-center">Home Page</h3>
+<a href="{{url_for('Logout')}}" class="btn btn-default">Logout</a>
+<a href="{{url_for('Profile')}}" class="btn btn-default"> View My Profile</a>
 {% endblock Body%}

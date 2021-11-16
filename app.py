@@ -35,10 +35,19 @@ def Signup():
 
 @app.route('/Home')
 def Home():
-    if(not session['username']):
-        render_template('Login.html')
+    if(not session.get('username',None)):
+        return render_template('Login.html')
     else:
-        render_template('Home.html')
+        return render_template('Home.html')
 
+@app.route('/Logout')
+def Logout():
+    session.pop('username',None)
+    return render_template('Login.html')
+
+@app.route('/Profile')
+def Profile():
+    return render_template('Profile.html')
+    
 if __name__=="__main__":
     app.run(debug=True)
