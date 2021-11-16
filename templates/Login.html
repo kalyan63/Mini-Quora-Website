@@ -1,0 +1,28 @@
+{% extends 'Base.html' %}
+{%block Body%}
+
+<h3> Login </h3></br>
+<div class="container">
+    <form action="/Login" method="Post" class="form-inline">
+        <p> User name </p>
+        <input type="Text" name="Uname" class="form-control"></br>
+        <p> Password </p>
+        <input type="Password" name="Password" class=form-control></br>
+        <input type="submit" Value="Login" class="btn btn-default">
+    </form>
+</div>
+</br>
+<h3>Sign up</h3>
+<div class="container">
+    <form action="/Signup" method="POST" class="form-inline">
+        <p> User name </p>
+        <input type="TEXT" name="Uname" class="form-control"> <br>
+        <p> Enter Password </p>
+        <input type="Password" name="Password" class="form-control"></br>
+        <p> Enter Email </p>
+        <input type="Text" name="Email" class="form-control"> </br>
+        <input type="submit" Value="Sign Up" class="btn btn-default">
+    </form>
+</div>
+
+{%endblock%}

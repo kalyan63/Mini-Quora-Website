@@ -10,8 +10,8 @@ cur=conn.cursor()
 table1='''Create Table IF NOT EXISTS User(
     user_id     INTEGER PRIMARY KEY autoincrement,
     User_name   varchar(20),
-    Password    varchar(100),
-    Salt        varchar(10),
+    Password    blob(50),
+    Salt        blob(8),
     Email       varchar(40),
     LastLogin   Text);'''
 
