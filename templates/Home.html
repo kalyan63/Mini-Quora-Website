@@ -1,6 +1,23 @@
 {% extends 'Base.html' %}
 {% block Body %}
 <h3 class="text-center">Home Page</h3>
-<a href="{{url_for('Logout')}}" class="btn btn-default">Logout</a>
 <a href="{{url_for('Profile')}}" class="btn btn-default"> View My Profile</a>
+<a href="{{url_for('Logout')}}" class="btn btn-default pull-right">Logout</a>
+<h3 class="text-centre">Questions</h3>
+<div class="container">
+<table>
+{% for Question in Questions %}
+    <tr>
+        {% if Question[3]==1 %}
+            <td>Ananymous<td>
+        {% else %}
+            <td>{{Question[1]}}</td>         
+        {% endif %}
+        <td>{{Question[2]}}</td>
+        <td>{{Question[4]}}<td>
+        <td><a href="/Question/{{Question[0]}}">View Question</a></td>
+    </tr>
+{% endfor %}
+</table>
+</div>
 {% endblock Body%}

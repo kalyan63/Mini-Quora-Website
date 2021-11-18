@@ -16,7 +16,8 @@ def Login():
         if(CheckLogin(Uname,Password)):
             session['username']=Uname
         else:
-            print("Wrong Username and password")    
+            print("Wrong Username and password")
+            return redirect('/')
     return render_template('Home.html')
 
 @app.route('/Signup',methods=['POST','GET'])
@@ -48,6 +49,7 @@ def Logout():
 @app.route('/Profile')
 def Profile():
     return render_template('Profile.html')
-    
+
+
 if __name__=="__main__":
     app.run(debug=True)
