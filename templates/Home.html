@@ -5,19 +5,17 @@
 <a href="{{url_for('Logout')}}" class="btn btn-default pull-right">Logout</a>
 <h3 class="text-centre">Questions</h3>
 <div class="container">
-<table>
 {% for Question in Questions %}
-    <tr>
-        {% if Question[3]==1 %}
-            <td>Ananymous<td>
+    <div class="container">
+        {% if Question[3] == 1 %}
+            <p>user: Ananymous<p>
         {% else %}
-            <td>{{Question[1]}}</td>         
+            <p>User: {{Question[1]}}</p>         
         {% endif %}
-        <td>{{Question[2]}}</td>
-        <td>{{Question[4]}}<td>
-        <td><a href="/Question/{{Question[0]}}">View Question</a></td>
+        <p>{{Question[2]}}</p>
+        <p>{{Question[4]}}</p>
+        <p><a href="/Question/{{Question[0]}}">View Question</a></p>
     </tr>
 {% endfor %}
-</table>
 </div>
 {% endblock Body%}
