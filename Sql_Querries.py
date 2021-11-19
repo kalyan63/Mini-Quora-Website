@@ -51,3 +51,11 @@ def GetUserId(Uname):
     res=cur.fetchone()
     conn.close()
     return res[0]
+
+def DisplayQues(): 
+    conn = sqlite3.connect('quora.db') 
+    cur = conn.cursor() 
+    cur.execute("select * from Questions") 
+    data = cur.fetchall()  
+    conn.close()
+    return(data)
