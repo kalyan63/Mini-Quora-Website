@@ -3,6 +3,14 @@ import os
 import hashlib
 from datetime import datetime
 
+def displayQues(): 
+    conn = sqlite3.connect('quora.db') 
+    cur = conn.cursor() 
+    cur.execute("select * from Questions") 
+    data = cursor.fetchall()  
+    conn.close()
+    return(data)
+
 def CheckUser(Uname):
     conn=sqlite3.connect('quora.db')
     cur=conn.cursor()

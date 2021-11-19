@@ -18,7 +18,8 @@ def Login():
         else:
             print("Wrong Username and password")
             return redirect('/')
-    return render_template('Home.html')
+    ques = displayQues()
+    return render_template('Home.html',Questions=ques)
 
 @app.route('/Signup',methods=['POST','GET'])
 def Signup():
