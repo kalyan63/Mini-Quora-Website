@@ -1,12 +1,13 @@
 {% extends 'Base.html' %}
 {% block Body %}
 <h3 class="text-center">Home Page</h3>
-<a href="{{url_for('Profile')}}" class="btn btn-default"> View My Profile</a>
-<a href="{{url_for('Logout')}}" class="btn btn-default pull-right">Logout</a>
+<a href="{{url_for('Profile')}}" class="btn btn-primary"> View My Profile</a>
+<a href="{{url_for('Logout')}}" class="btn btn-danger float-right">Logout</a>
+</br>
 <h3 class="text-centre">Questions</h3>
 <div class="container">
 {% for Question in Questions %}
-    <div class="container">
+    <div class="border bg-dark text-white">
         {% if Question[3] == 1 %}
             <p>user: Ananymous<p>
         {% else %}
@@ -15,7 +16,7 @@
         <p>{{Question[2]}}</p>
         <p>{{Question[4]}}</p>
         <p><a href="/Question/{{Question[0]}}">View Question</a></p>
-    </tr>
+    </div>
 {% endfor %}
 </div>
 {% endblock Body%}

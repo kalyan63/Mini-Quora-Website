@@ -10,6 +10,7 @@ def index():
 
 @app.route('/Login',methods=['POST','GET'])
 def Login():
+    ques=[[1,1,'This is a good QUESTION',0,'22-3-2021'],[2,1,'nOT SO OMPRESSEIVE',0,'22-6-2021'],[3,2,'My good ness',1,'22-12021']]
     if request.method=="POST":
         Uname=request.form['Uname']
         Password=request.form['Password']
@@ -18,7 +19,7 @@ def Login():
         else:
             print("Wrong Username and password")
             return redirect('/')
-    return render_template('Home.html')
+    return render_template('Home.html',Questions=ques)
 
 @app.route('/Signup',methods=['POST','GET'])
 def Signup():
