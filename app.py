@@ -1,6 +1,6 @@
 from flask import Flask,render_template,redirect,request,session
 from datetime import datetime
-from Sql_Querries import CheckUser,CheckMail,CheckLogin,InsertUser,DisplayQues
+from Sql_Querries import CheckUser,CheckMail,CheckLogin,InsertUser,DisplayQues,GetUserId
 app=Flask(__name__)
 app.secret_key = "cn assignment safty key **&**"
 
@@ -15,7 +15,7 @@ def Login():
         Uname=request.form['Uname']
         Password=request.form['Password']
         if(CheckLogin(Uname,Password)):
-            session['username']=Uname
+            session['UserId']=GetUserId(Uname)
         else:
             print("Wrong Username and password")
             return redirect('/')
