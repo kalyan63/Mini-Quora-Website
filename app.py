@@ -1,6 +1,6 @@
 from flask import Flask,render_template,redirect,request,session
 from datetime import datetime
-from Sql_Querries import CheckUser,CheckMail,CheckLogin,InsertUser
+from Sql_Querries import CheckUser,CheckMail,CheckLogin, InsertQues,InsertUser,DisplayQues,GetUserId
 app=Flask(__name__)
 app.secret_key = "cn assignment safty key **&**"
 
@@ -10,16 +10,16 @@ def index():
 
 @app.route('/Login',methods=['POST','GET'])
 def Login():
+    # ques=[[1,1,'This is a good QUESTION',0,'22-3-2021'],[2,1,'nOT SO OMPRESSEIVE',0,'22-6-2021'],[3,2,'My good ness',1,'22-12021']]
     if request.method=="POST":
         Uname=request.form['Uname']
         Password=request.form['Password']
         if(CheckLogin(Uname,Password)):
-            session['username']=Uname
+            session['UserId']=GetUserId(Uname)
         else:
             print("Wrong Username and password")
             return redirect('/')
-    ques = displayQues()
-    return render_template('Home.html',Questions=ques)
+    return render_template('Home.html',Questions=DisplayQues())
 
 @app.route('/Signup',methods=['POST','GET'])
 def Signup():
@@ -40,6 +40,14 @@ def Home():
     if(not session.get('username',None)):
         return render_template('Login.html')
     else:
+        if(request.method=="POST"):
+            Q_Text=request.form['q_text']
+            An=request.form['anonymous']
+            user_id=session['UserId']
+            if(Q_Text):
+                InsertQues(user_id,Q_Text,An)
+            else:
+                print("Please enter a question") 
         return render_template('Home.html')
 
 @app.route('/Logout')
