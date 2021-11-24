@@ -3,13 +3,7 @@ import os
 import hashlib
 from datetime import datetime
 
-def displayQues(): 
-    conn = sqlite3.connect('quora.db') 
-    cur = conn.cursor() 
-    cur.execute("select * from Questions") 
-    data = cursor.fetchall()  
-    conn.close()
-    return(data)
+from flask import sessions
 
 def CheckUser(Uname):
     conn=sqlite3.connect('quora.db')
@@ -38,6 +32,17 @@ def InsertUser(Uname,Mail,Password):
     conn.commit()
     conn.close()
 
+def InsertQues(user_id,Q_Text,An):
+    import uuid
+    Q_id = uuid.uuid1()
+    Cur_date=str(datetime.now())
+    arg=(Q_id,user_id,Q_Text,An,Cur_date)
+    conn=sqlite3.connect('quora.db')
+    cur=conn.cursor()
+    cur.execute("Insert into Questions(Q_id,user_id,Q_Text,Ananymous,Date) values(?,?,?,?,?)",arg)
+    conn.commit()
+    conn.close()
+
 def CheckLogin(Uname,Password):
     conn=sqlite3.connect('quora.db')
     cur=conn.cursor()
@@ -59,3 +64,19 @@ def GetUserId(Uname):
     res=cur.fetchone()
     conn.close()
     return res[0]
+
+def GetUserName(U_Id):
+    conn=sqlite3.connect('quora.db')
+    cur=conn.cursor()
+    cur.execute("Select User_name from User where user_id=?",(U_Id,))
+    res=cur.fetchone()
+    conn.close()
+    return res[0]
+
+def DisplayQues(): 
+    conn = sqlite3.connect('quora.db') 
+    cur = conn.cursor() 
+    cur.execute("select * from Questions") 
+    data = cur.fetchall()  
+    conn.close()
+    return(data)
