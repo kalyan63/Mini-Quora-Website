@@ -1,6 +1,6 @@
 from flask import Flask,render_template,redirect,request,session
 from datetime import datetime
-from Sql_Querries import CheckUser,CheckMail,CheckLogin,InsertUser,DisplayQues,GetUserId,InsertQues
+from Sql_Querries import CheckUser,CheckMail,CheckLogin,InsertUser,DisplayQues,GetUserId,InsertQues,GetQuestion,InsertAns,DeleteAnswer,DeleteQuestion
 app=Flask(__name__)
 app.secret_key = "cn assignment safty key **&**"
 
@@ -34,7 +34,7 @@ def Signup():
             InsertUser(Uname,Email,Password)        
     return render_template('Login.html')    
 
-@app.route('/Home',methods=["POST"])
+@app.route('/Home',methods=["POST","GET"])
 def Home():
     if(request.method=="POST"):
         Q_Text=request.form['q_text']
@@ -44,20 +44,34 @@ def Home():
             InsertQues(user_id,Q_Text,An)
         else:
             print("Please enter a question") 
-        return render_template('Home.html')    
-    if(not session.get('username',None)):
+        return render_template('Home.html',Questions=DisplayQues())    
+    if(not session.get('UserId',None)):
         return render_template('Login.html')
     else:
-        return render_template('Home.html')
+        return render_template('Home.html',Questions=DisplayQues())
 
 @app.route('/Logout')
 def Logout():
-    session.pop('username',None)
+    session.pop('UserId',None)
     return render_template('Login.html')
 
 @app.route('/Profile')
 def Profile():
     return render_template('Profile.html')
+
+@app.route('/Answer/<int:Q_id>',methods=["POST"])
+def Answer(Q_id):
+    if(request.method=="POST"):
+        A_txt=request.form['A_text']
+        if(A_txt):
+            InsertAns(Q_id,session['UserId'],A_txt)
+        else:
+            print("Answer is blank")
+        return render_template('Question.html',Answer=GetQuestion(Q_id))        
+
+@app.route('/Question/<int:Q_id>',methods=["POST","GET"])
+def Question(Q_id):
+    return render_template('Question.html',Answer=GetQuestion(Q_id))
 
 if __name__=="__main__":
     app.run(debug=True)
