@@ -67,3 +67,12 @@ def DisplayQues():
     data = cur.fetchall()  
     conn.close()
     return(data)
+
+def InsertQues(user_id,Q_Text,An):
+    Cur_date=str(datetime.now())
+    arg=(user_id,Q_Text,An,Cur_date)
+    conn=sqlite3.connect('quora.db')
+    cur=conn.cursor()
+    cur.execute("Insert into Questions(user_id,Q_Text,Ananymous,Date) values(?,?,?,?)",arg)
+    conn.commit()
+    conn.close()
