@@ -1,6 +1,6 @@
-from flask import Flask,render_template,redirect,request,session
+from flask import Flask,render_template,redirect,request,session, sessions
 from datetime import datetime
-from Sql_Querries import CheckUser,CheckMail,CheckLogin, InsertQues,InsertUser,DisplayQues,GetUserId
+from Sql_Querries import CheckUser,CheckMail,CheckLogin, DisplayQuesUser,InsertUser,DisplayQues,GetUserId,InsertQues,DisplayAnsUser
 app=Flask(__name__)
 app.secret_key = "cn assignment safty key **&**"
 
@@ -10,7 +10,6 @@ def index():
 
 @app.route('/Login',methods=['POST','GET'])
 def Login():
-    # ques=[[1,1,'This is a good QUESTION',0,'22-3-2021'],[2,1,'nOT SO OMPRESSEIVE',0,'22-6-2021'],[3,2,'My good ness',1,'22-12021']]
     if request.method=="POST":
         Uname=request.form['Uname']
         Password=request.form['Password']
@@ -35,19 +34,20 @@ def Signup():
             InsertUser(Uname,Email,Password)        
     return render_template('Login.html')    
 
-@app.route('/Home')
+@app.route('/Home',methods=["POST"])
 def Home():
+    if(request.method=="POST"):
+        Q_Text=request.form['q_text']
+        An=int(request.form.get('anonymous',0))   
+        user_id=session['UserId']
+        if(Q_Text):
+            InsertQues(user_id,Q_Text,An)
+        else:
+            print("Please enter a question") 
+        return render_template('Home.html')    
     if(not session.get('username',None)):
         return render_template('Login.html')
     else:
-        if(request.method=="POST"):
-            Q_Text=request.form['q_text']
-            An=request.form['anonymous']
-            user_id=session['UserId']
-            if(Q_Text):
-                InsertQues(user_id,Q_Text,An)
-            else:
-                print("Please enter a question") 
         return render_template('Home.html')
 
 @app.route('/Logout')
@@ -57,9 +57,21 @@ def Logout():
 
 @app.route('/Profile')
 def Profile():
-    data = DisplayQuesUser(session['UserId'])
-    return render_template('Profile.html',data=data)
+    return render_template('Profile.html')
 
+@app.route('/Profile/questions')
+def ProfileQue():
+    dataq = DisplayQuesUser(session['UserId'])
+    # dataa = DisplayAnsUser(session['UserId'])
+    # data = dataq.query.join(dataa).order_by(dataq.Date).all()
+    return render_template('UserQuestionList.html',data=dataq)
+
+@app.route('/Profile/answers')
+def ProfileAns():
+    # dataq = DisplayQuesUser(session['UserId'])
+    dataa = DisplayAnsUser(session['UserId'])
+    # data = dataq.query.join(dataa).order_by(dataq.Date).all()
+    return render_template('UserAnswerList.html',data=dataa)
 
 if __name__=="__main__":
     app.run(debug=True)
