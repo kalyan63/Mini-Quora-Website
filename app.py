@@ -57,7 +57,8 @@ def Logout():
 
 @app.route('/Profile')
 def Profile():
-    return render_template('Profile.html')
+    data = DisplayQuesUser(session['UserId'])
+    return render_template('Profile.html',data=data)
 
 
 if __name__=="__main__":
