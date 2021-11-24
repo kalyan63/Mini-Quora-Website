@@ -4,6 +4,18 @@
 <a href="{{url_for('Profile')}}" class="btn btn-primary"> View My Profile</a>
 <a href="{{url_for('Logout')}}" class="btn btn-danger float-right">Logout</a>
 </br>
+<div class="container">
+    <h3>Ask Question </h3>
+    <form action="/Home" method="POST">
+        <label for="text">Ask your question:</label>
+        <br>
+        <textarea rows="5" chtml forols="60" name="q_text" placeholder="Enter text"></textarea>
+        <br/>
+        <input type="checkbox" id="anonymous" name="anonymous" value="1">
+        <label for="anonymous"> I want to ask anonymously </label><br>
+        <input type="submit" value="Ask Question"/>
+    </form>
+</div>
 <h3 class="text-centre">Questions</h3>
 <div class="container">
 {% for Question in Questions %}
@@ -19,15 +31,4 @@
     </div>
 {% endfor %}
 </div>
-
-<form action="/Home" method="POST">
-    <label for="text">Ask your question:</label>
-    <br>
-    <textarea rows="5" cols="60" name="q_text" placeholder="Enter text"></textarea>
-    <br/>
-    <input type="checkbox" id="anonymous" name="anonymous" value="Bike">
-    <label for="anonymous"> I want to ask anonymously </label><br>
-    <input type="submit" value="Submit"/>
-</form>
-
 {% endblock Body%}
