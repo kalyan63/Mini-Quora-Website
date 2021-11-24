@@ -1,0 +1,24 @@
+{% extends 'Base.html' %}
+{% block Body %}
+<h3 class="text-center">Profile page<h3>
+
+<table>
+  <thead>
+    <tr>
+        <th>Question ID</th>
+        <th>Question</th>
+        <th>Date</th>
+    </tr>
+    </thead>    
+    <tbody>
+     {% for row in data %}    
+            <tr>
+                <td>{{row[0]}}</td>
+                <td>{{row[2]}}</td>
+                <td>{{row[4]}}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock%}
