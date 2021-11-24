@@ -1,32 +1,9 @@
 {% extends 'Base.html' %}
 {% block Body %}
 <h3 class="text-center">Profile page<h3>
-<p>{{session['UserId']}}</p>
+<p>User Id : {{session['UserId']}}</p>
 
-<!-- Q_id        INTEGER PRIMARY KEY autoincrement,
-user_id     int not null,
-Q_Text      varchar(500),
-Ananymous   int default 0,
-Date   -->
-
-
-<table>
-  <thead>
-    <tr>
-        <th>Question ID</th>
-        <th>Question</th>
-        <th>Date</th>
-    </tr>
-    </thead>    
-    <tbody>
-     {% for row in data %}    
-            <tr>
-                <td>{{row[0]}}</td>
-                <td>{{row[1]}}</td>
-                <td>{{row[2]}}</td>
-            </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<p><a href="/Profile/questions">View your Questionss</a></p>
+<p><a href="/Profile/answers">View your Answers</a></p>
 
 {% endblock%}
