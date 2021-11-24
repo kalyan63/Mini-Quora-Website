@@ -1,12 +1,13 @@
 {% extends 'Base.html' %}
 {% block Body %}
 <h3 class="text-center">Home Page</h3>
-<a href="{{url_for('Profile')}}" class="btn btn-default"> View My Profile</a>
-<a href="{{url_for('Logout')}}" class="btn btn-default pull-right">Logout</a>
+<a href="{{url_for('Profile')}}" class="btn btn-primary"> View My Profile</a>
+<a href="{{url_for('Logout')}}" class="btn btn-danger float-right">Logout</a>
+</br>
 <h3 class="text-centre">Questions</h3>
 <div class="container">
 {% for Question in Questions %}
-    <div class="container">
+    <div class="border bg-dark text-white">
         {% if Question[3] == 1 %}
             <p>user: Ananymous<p>
         {% else %}
@@ -15,7 +16,18 @@
         <p>{{Question[2]}}</p>
         <p>{{Question[4]}}</p>
         <p><a href="/Question/{{Question[0]}}">View Question</a></p>
-    </tr>
+    </div>
 {% endfor %}
 </div>
+
+<form action="/form/submit" method="GET">
+    <label for="text">Ask your question:</label>
+    <br>
+    <textarea rows="5" cols="60" name="q_text" placeholder="Enter text"></textarea>
+    <br/>
+    <input type="checkbox" id="anonymous" name="anonymous" value="Bike">
+    <label for="anonymous"> I want to ask anonymously </label><br>
+    <input type="submit" value="Submit"/>
+</form>
+
 {% endblock Body%}
