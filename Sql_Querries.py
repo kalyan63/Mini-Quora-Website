@@ -78,3 +78,11 @@ def DisplayQues():
     data = cur.fetchall()  
     conn.close()
     return(data)
+
+def DisplayQuesUser(user_id):
+    conn = sqlite3.connect('quora.db') 
+    cur = conn.cursor() 
+    cur.execute("select * from Questions where user_id=user_id") 
+    data = cur.fetchall()  
+    conn.close()
+    return(data)
