@@ -33,13 +33,11 @@ def InsertUser(Uname,Mail,Password):
     conn.close()
 
 def InsertQues(user_id,Q_Text,An):
-    import uuid
-    Q_id = uuid.uuid1()
     Cur_date=str(datetime.now())
-    arg=(Q_id,user_id,Q_Text,An,Cur_date)
+    arg=(user_id,Q_Text,An,Cur_date)
     conn=sqlite3.connect('quora.db')
     cur=conn.cursor()
-    cur.execute("Insert into Questions(Q_id,user_id,Q_Text,Ananymous,Date) values(?,?,?,?,?)",arg)
+    cur.execute("Insert into Questions(user_id,Q_Text,Ananymous,Date) values(?,?,?,?)",arg)
     conn.commit()
     conn.close()
 
