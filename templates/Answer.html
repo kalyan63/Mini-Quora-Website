@@ -1,0 +1,69 @@
+{% extends "Base.html" %}
+{% block Body %}
+
+<a href="{{url_for('Home')}}" class="btn btn-danger float-right">Go Back To Home</a>
+<!-- <div class="border bg-dark text-white">
+    <p>Question : {{Answer['Ques'][2]}}</p>
+    <p>{{Answer['Ques'][4]}}</p>
+</div> -->
+
+{% for row in Ans %}
+
+<table>
+    <thead>
+      <tr>
+          <th>Answer ID</th>
+          <th>Question ID</th>>
+          <th>Answer by you</th>
+          <th>Upvotes</th>
+          <th>Downvotes</th>
+          <th>Date</th>
+      </tr>
+      </thead>    
+      <tbody>
+       <!-- {% for row in answers %}     -->
+              <tr>
+                  <td>{{row[0]}}</td>
+                  <td>{{row[1]}}</td>
+                  <td>{{row[2]}}</td>
+                  <td>{{row[3]}}</td>
+                  <td>{{row[4]}}</td>
+                  <td>{{row[5]}}</td>
+              </tr>
+          <!-- {% endfor %} -->
+      </tbody>
+  </table>
+
+  <!-- <p><a href="/Profile/questions/{{Question[0]}}">View Question</a></p> -->
+
+<h3>Add Comments</h3>
+<div class="container">
+    <form action="/Answer/{{Answer['Ques'][0]}}" method="POST">
+        <label for="A_text2">Add comments:</label>
+        <br>
+        <textarea rows="5" cols="60" name="A_text" placeholder="Enter text"></textarea>
+        <br/>
+        <input type="file" value="Add file to support your Answer">
+        <input type="submit" value="Add comment"/>
+    </form>
+</div>
+
+<h3> Comments </h3>
+<div class="container">
+{% for Ans in Answer['Comment'] %}
+    <div class="border bg-dark text-white">
+        {% if Ans[4] == 1 %}
+            <p>user: Ananymous<p>
+        {% else %}
+            <p>User: {{Ans[2]}}</p>         
+        {% endif %}
+        <p>{{Ans[3]}}</p>
+        <p><a href="/Question/UpVotes" class="btn btn-success float-right">Up   : {{Ans[4]}}</a></p>
+        <p><a href="/Question/DownVotes" class="btn btn-danger float-right">Down : {{Ans[5]}}</a><p>
+    </div>
+{% endfor %}
+</div>
+
+{% endfor %}
+
+{% endblock Body %}
