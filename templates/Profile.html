@@ -2,7 +2,9 @@
 {% block Body %}
 <h3 class="text-center">Profile page<h3>
 <p>User Id : {{session['UserId']}}</p>
-
+{% for d in data %}
+<p> Email : {{d}} </p>
+{% endfor %}
 <p><a href="/Profile/questions">View your Questionss</a></p>
 <p><a href="/Profile/answers">View your Answers</a></p>
 
