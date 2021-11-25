@@ -80,7 +80,7 @@ def InsertQues(user_id,Q_Text,An):
 def DisplayQuesUser(user_id):
     conn = sqlite3.connect('quora.db') 
     cur = conn.cursor() 
-    cur.execute("select * from Questions where user_id=user_id") 
+    cur.execute("select * from Questions where user_id=?",(user_id,)) 
     data = cur.fetchall()  
     conn.close()
     return(data)
@@ -88,7 +88,7 @@ def DisplayQuesUser(user_id):
 def DisplayAnsUser(user_id):
     conn = sqlite3.connect('quora.db') 
     cur = conn.cursor() 
-    cur.execute("select * from Answer where user_id=user_id") 
+    cur.execute("select * from Answer where user_id=?",(user_id,)) 
     data = cur.fetchall()  
     conn.close()
     return(data)
@@ -100,3 +100,38 @@ def Getemail(user_id):
     data = cur.fetchall()[0]
     conn.close()
     return(data)
+
+def GetQuestion(Q_id):
+    conn=sqlite3.connect('quora.db')
+    cur=conn.cursor()
+    cur.execute("Select * from Questions where Q_id=?",(Q_id,))
+    Ques=cur.fetchall()
+    cur.execute("Select * from Answer where Q_id=?",(Q_id,))
+    Ans=cur.fetchall()
+    conn.close()
+    return {"Ques":Ques[0],"Ans":Ans}
+
+def DeleteQuestion(Q_id):
+    conn=sqlite3.connect('quora.db')
+    cur=conn.cursor()
+    cur.execute("Delete from Questions where Q_id=?",(Q_id,))
+    conn.commit()
+    conn.close()
+
+def DeleteAnswer(A_id):
+    conn=sqlite3.connect('quora.db')
+    cur=conn.cursor()
+    cur.execute("Delete from Answer where A_id=?",(A_id,))
+    conn.commit()
+    conn.close()
+
+def InsertAns(Q_id,user_id,A_text):
+    conn=sqlite3.connect('quora.db')
+    cur=conn.cursor()
+    cur.execute("Insert into Answer(Q_id,user_id,A_Text,Date) values(?,?,?,?)",(Q_id,user_id,A_text,str(datetime.now())))
+    conn.commit()
+    cur.execute("Select user_id from Questions where Q_id=?",(Q_id,))
+    data = cur.fetchall()[0]
+    conn.close()
+    return(data)
+
