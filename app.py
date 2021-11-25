@@ -89,15 +89,15 @@ def Answer(Q_id):
     if(request.method=="POST"):
         A_txt=request.form['A_text']
         if(A_txt):
-            InsertAns(Q_id,session['UserId'],A_txt)
-            r = Getemail(session['UserId'])
-            print('____________________',str(r[0]))
-            msg = Message( 'Hello', sender ='chiluverupreeti@gmail.com', recipients = [str(r[0])])
-            msg.body = 'Hello Flask message sent from Flask-Mail! Your question has been answered'
+            user = InsertAns(Q_id,session['UserId'],A_txt)
+            r = Getemail(int(user[0]))
+            msg = Message( 'Hello from mini-quora!', sender ='chiluverupreeti@gmail.com', recipients = [str(r[0])])
+            msg.body = 'Hello!! You got a message from Mini-quora! Your question has been answered'
             mail.send(msg)
         else:
             print("Answer is blank")
         return render_template('Question.html',Answer=GetQuestion(Q_id))        
+        
 
 @app.route('/Question/<int:Q_id>',methods=["POST","GET"])
 def Question(Q_id):
