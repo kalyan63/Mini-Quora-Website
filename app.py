@@ -74,8 +74,8 @@ def ProfileAns():
 
 app.config['MAIL_SERVER']='smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
-app.config['MAIL_USERNAME'] = 'chiluverupreeti@gmail.com'
-app.config['MAIL_PASSWORD'] = 'pReeticH23'
+app.config['MAIL_USERNAME'] = 'xyz@gmail.com' # _________________ADD YOUR EMAIL ID AND PASSWORD _____________
+app.config['MAIL_PASSWORD'] = '******' # _______________ADD YOUR EMAIL ID AND PASSWORD __________________
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 app.config['MAIL_DEBUG'] = True
