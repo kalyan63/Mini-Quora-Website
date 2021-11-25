@@ -92,3 +92,11 @@ def DisplayAnsUser(user_id):
     data = cur.fetchall()  
     conn.close()
     return(data)
+
+def Getemail(user_id):
+    conn = sqlite3.connect('quora.db') 
+    cur = conn.cursor() 
+    cur.execute("select Email from User where user_id=?",(user_id,)) 
+    data = cur.fetchall()[0]
+    conn.close()
+    return(data)
