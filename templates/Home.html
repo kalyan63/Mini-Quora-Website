@@ -23,10 +23,10 @@
         {% if Question[3] == 1 %}
             <p>user: Ananymous<p>
         {% else %}
-            <p>User: {{Question[1]}}</p>         
+            <p><a href="/profile/{{Question[1]}}" class="btn btn-info">{{get_Name(Question[1])}}</a></p>         
         {% endif %}
         <p>{{Question[2]}}</p>
-        <p>{{Question[4]}}</p>
+        <p>{{Question[4][:10]}}</p>
         <p><a href="/Question/{{Question[0]}}">View Question</a></p>
     </div>
 {% endfor %}

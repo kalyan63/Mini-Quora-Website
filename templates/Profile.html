@@ -2,5 +2,5 @@
 {% block Body %}
 <h3 class="text-center">Profile page<h3>
 <a href="{{url_for('Home')}}" class="btn btn-danger float-right">Go Back To Home</a>
-<p>{{session['UserId']}}</p>
+<p>{{get_Mail(session['UserId'])}}</p>
 {% endblock%}

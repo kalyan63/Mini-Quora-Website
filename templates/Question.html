@@ -5,31 +5,42 @@
     {% if Answer['Ques'][3] == 1 %}
         <p>user: Ananymous<p>
     {% else %}
-        <p>User: {{Answer['Ques'][1]}}</p>         
+    <p><a href="/profile/{{Question['Ques'][1]}}" class="btn btn-info">{{get_Name(Question['Ques'][1])}}</a></p>
     {% endif %}
-    <p>{{Answer['Ques'][2]}}</p>
-    <p>{{Answer['Ques'][4]}}</p>
+    <p>{{Question['Ques'][2]}}</p>
+    <p>{{Question['Ques'][4]}}</p>
 </div>
 <h3>Answer Question</h3>
 <div class="container">
-    <form action="/Answer/{{Answer['Ques'][0]}}" method="POST">
+    <form action="/Question/{{Question['Ques'][0]}}" method="POST" enctype="multipart/form-data">
         <label for="A_text2">Answer the question:</label>
         <br>
         <textarea rows="5" cols="60" name="A_text" placeholder="Enter text"></textarea>
         <br/>
-        <input type="file" value="Add file to support your Answer">
+        <input type="file" name="file" value="Add file to support your Answer">
+        <input type="checkbox" id="anonymous" name="anonymous" value="1">
+        <label for="anonymous"> I want to ask anonymously </label><br>
         <input type="submit" value="Answer Question"/>
     </form>
 </div>
 <h3> The answers </h3>
 <div class="container">
-{% for Ans in Answer['Ans'] %}
+{% for Ans in Question['Ans'] %}
     <div class="border bg-dark text-white">
-        <p>User: {{Ans[2]}}</p>
+        {% if Ans[7] == 1 %}
+            <p>user: Ananymous<p>
+        {% else %}
+        <p><a href="/profile/{{Ans[2]}}" class="btn btn-info">{{get_Name(Ans[2])}}</a></p>
+        {% endif %}
         <p>{{Ans[3]}}</p>
         <p>{{Ans[6]}}</p>
-        <p><a href="/Question/UpVotes" class="btn btn-success float-right">Up   : {{Ans[4]}}</a></p>
-        <p><a href="/Question/DownVotes" class="btn btn-danger float-right">Down : {{Ans[5]}}</a><p>
+        {%if Get_File(Ans[0])%}
+        <img src="{{url_for('static',filename=Get_File(Ans[0]))}}">
+        {%endif%}
+        <p><a href="/Answer/{{Ans[0]}}">View Answer</a></p>
+        <p><a href="/Question/UpVotes/{{Ans[0]}}" class="btn btn-success float-right">Up   : {{Ans[4]}}</a></p>
+        <p><a href="/Question/DownVotes/{{Ans[0]}}" class="btn btn-danger float-right">Down : {{Ans[5]}}</a><p>
+        <br>
     </div>
 {% endfor %}
 </div>

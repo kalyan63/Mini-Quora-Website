@@ -24,7 +24,7 @@ table3='''Create Table IF NOT EXISTS Questions(
     Q_id        INTEGER PRIMARY KEY autoincrement,
     user_id     int not null,
     Q_Text      varchar(500),
-    Ananymous   int default 0,
+    Anonymous   int default 0,
     Date        Text);'''
 
 table4='''Create Table IF NOT EXISTS Answer(
@@ -34,7 +34,8 @@ table4='''Create Table IF NOT EXISTS Answer(
     A_Text      varchar(500),
     Upvote_count    int default 0,
     Downvote_count  int default 0,
-    Date        Text);'''
+    Date        Text,
+    Anonymous   int default 0);'''
 
 table5='''Create Table IF NOT EXISTS Media(
     M_id        INTEGER PRIMARY KEY autoincrement,
@@ -44,15 +45,18 @@ table5='''Create Table IF NOT EXISTS Media(
 table6='''Create Table IF NOT EXISTS Votes(
     V_id        INTEGER PRIMARY KEY autoincrement,
     A_id        int not null,
-    user_id     int not null);'''
+    user_id     int not null,
+    vote_type   int default 1);'''
 
 table7='''Create Table IF NOT EXISTS Comments(
     C_id        INTEGER PRIMARY KEY autoincrement,
     A_id        int not null,
     user_id     int not null,
     Text        varchar(500),
-    Ananymous   int default 0);'''
+    Anonymous   int default 0);'''
 
 Tables=[table1,table2,table3,table4,table5,table6,table7]
 for table in Tables:
     cur.execute(table)
+conn.commit()
+conn.close()    

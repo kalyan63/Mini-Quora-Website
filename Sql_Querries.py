@@ -60,6 +60,14 @@ def GetUserName(U_Id):
     conn.close()
     return res[0]
 
+def GetUserMail(U_id):
+    conn=sqlite3.connect('quora.db')
+    cur=conn.cursor()
+    cur.execute("Select Email from User where user_id=?",(U_id,))
+    res=cur.fetchone()
+    conn.close()
+    return res[0]
+
 def DisplayQues(): 
     conn = sqlite3.connect('quora.db') 
     cur = conn.cursor() 
@@ -73,7 +81,7 @@ def InsertQues(user_id,Q_Text,An):
     arg=(user_id,Q_Text,An,Cur_date)
     conn=sqlite3.connect('quora.db')
     cur=conn.cursor()
-    cur.execute("Insert into Questions(user_id,Q_Text,Ananymous,Date) values(?,?,?,?)",arg)
+    cur.execute("Insert into Questions(user_id,Q_Text,Anonymous,Date) values(?,?,?,?)",arg)
     conn.commit()
     conn.close()
 
@@ -87,6 +95,15 @@ def GetQuestion(Q_id):
     conn.close()
     return {"Ques":Ques[0],"Ans":Ans}
 
+def GetAnswer(A_id):
+    conn=sqlite3.connect('quora.db')
+    cur=conn.cursor()
+    cur.execute("Select * from Answer where A_id=?",(A_id,))
+    Ans=cur.fetchall()
+    cur.execute("Select * from Comments where A_id=?",(A_id,))
+    Com=cur.fetchall()
+    conn.close()
+    return {"Ans":Ans[0],"Com":Com}
 
 def DeleteQuestion(Q_id):
     conn=sqlite3.connect('quora.db')
@@ -102,9 +119,44 @@ def DeleteAnswer(A_id):
     conn.commit()
     conn.close()
 
-def InsertAns(Q_id,user_id,A_text):
+def InsertAns(Q_id,user_id,A_text,An):
     conn=sqlite3.connect('quora.db')
     cur=conn.cursor()
-    cur.execute("Insert into Answer(Q_id,user_id,A_Text,Date) values(?,?,?,?)",(Q_id,user_id,A_text,str(datetime.now())))
+    cur.execute("Insert into Answer(Q_id,user_id,A_Text,Date,Anonymous) values(?,?,?,?,?)",(Q_id,user_id,A_text,str(datetime.now()),An))
+    conn.commit()
+    cur.execute("Select A_id from Answer where Q_id=? and user_id=? and A_text=?",(Q_id,user_id,A_text))
+    res=cur.fetchone()
+    conn.close()
+    return res[0]
+
+def UpVote_Answer(user_id,A_id):
+    conn=sqlite3.connect('quora.db')
+    cur=conn.cursor()
+    cur.execute("")
     conn.commit()
     conn.close()
+
+def DownVote(user_id,A_id):
+    conn=sqlite3.connect('quora.db')
+    cur=conn.cursor()
+    cur.execute()
+    conn.commit()
+    conn.close()   
+
+def InsertFiles(A_id,loc):
+    conn=sqlite3.connect('quora.db')
+    cur=conn.cursor()
+    cur.execute("Insert into Media(A_id,File_loc) values(?,?)",(A_id,loc))
+    conn.commit()
+    conn.close()
+
+def GetFileLoc(A_id):
+    conn=sqlite3.connect('quora.db')
+    cur=conn.cursor()
+    cur.execute("Select File_loc from Media where A_id=?",(A_id,))
+    res=cur.fetchone()
+    conn.close()
+    if(res):
+        return res[0]
+    else:
+        return None    
