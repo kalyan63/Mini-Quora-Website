@@ -1,0 +1,44 @@
+{% extends "Base.html" %}
+{% block Body %}
+<a href="{{url_for('Home')}}" class="btn btn-danger float-right">Go Back To Home</a>
+<div class="border bg-dark text-white">
+    {% if Ans_Com['Ans'][7] == 1 %}
+        <p>user: Ananymous<p>
+    {% else %}
+    <p><a href="/profile/{{Ans_Com['Ans'][2]}}" class="btn btn-info">{{get_Name(Ans_Com['Ans'][2])}}</a></p>
+    {% endif %}
+    <p>{{Ans_Com['Ans'][3]}}</p>
+    <p>{{Ans_Com['Ans'][6]}}</p>
+    {%if Get_File(Ans_Com['Ans'][0])%}
+    <img src="{{url_for('static',filename=Get_File(Ans_Com['Ans'][0]))}}">
+    {%endif%}
+    <p><a href="/Question/UpVotes/{{Ans_Com['Ans'][0]}}" class="btn btn-success float-right">Up   : {{Ans_Com['Ans'][4]}}</a></p>
+    <p><a href="/Question/DownVotes/{{Ans_Com['Ans'][0]}}" class="btn btn-danger float-right">Down : {{Ans_Com['Ans'][5]}}</a><p>
+    <br>
+</div>
+<h3>ADD COMMENT</h3>
+<div class="container">
+    <form action="/Answer/{{Ans_Com['Ans'][0]}}" method="POST">
+        <label for="A_text2">comment below :</label>
+        <br>
+        <textarea rows="5" cols="60" name="C_text" placeholder="Enter text"></textarea>
+        <br/>
+        <input type="checkbox" id="anonymous" name="anonymous" value="1">
+        <label for="anonymous"> I want to ask anonymously </label><br>
+        <input type="submit" value="comment"/>
+    </form>
+</div>
+<h3> The comments </h3>
+<div class="container">
+{% for Com in Ans_Com['Com'] %}
+    <div class="border bg-dark text-white">
+        {% if Com[4] == 1 %}
+            <p>user: Ananymous<p>
+        {% else %}
+        <p><a href="/profile/{{Com[2]}}" class="btn btn-info">{{get_Name(Com[2])}}</a></p>
+        {% endif %}
+        <p>{{Com[3]}}</p> 
+    </div>
+{% endfor %}
+</div>
+{% endblock Body %}

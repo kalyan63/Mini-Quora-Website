@@ -1,6 +1,6 @@
 from flask import Flask,render_template,redirect,request,session
 from datetime import datetime
-from Sql_Querries import CheckUser,CheckMail,CheckLogin, GetFileLoc, InsertFiles,InsertUser,DisplayQues,GetUserId,GetUserMail,InsertQues,GetQuestion,GetAnswer,InsertAns,GetUserName,UpVote_Answer,DownVote,InsertFiles,GetFileLoc
+from Sql_Querries import CheckUser,CheckMail,CheckLogin, GetFileLoc, InsertFiles,InsertUser,DisplayQues,GetUserId,GetUserMail,InsertQues,GetQuestion,GetAnswer,InsertAns,GetUserName,UpVote_Answer,DownVote,InsertCom,InsertFiles,GetFileLoc
 import os
 app=Flask(__name__)
 app.secret_key = "cn assignment safty key **&**"
@@ -60,9 +60,19 @@ def Logout():
 def Profile():
     return render_template('Profile.html',get_Mail=GetUserMail)
 
-@app.route('/Answer/<int:Q_id>',methods=["POST","GET"])
-def Answer(Q_id):
-        return render_template('Answer.html',Ans_Com=GetAnswer())           
+@app.route('/Answer/<int:A_id>',methods=["POST","GET"])
+def Answer(A_id):
+    if(request.method=="POST"):
+        C_Text=request.form['C_text']
+        An=int(request.form.get('anonymous',0))   
+        user_id=session['UserId']
+        if(C_Text):
+            InsertCom(A_id,user_id,C_Text,An)
+        else:
+            print("Please enter a question") 
+        return render_template('Answer.html',Ans_Com=GetAnswer(A_id),Get_File=GetFileLoc,get_Name=GetUserName)     
+    else:
+        return render_template('Answer.html',Ans_Com=GetAnswer(A_id),Get_File=GetFileLoc,get_Name=GetUserName)          
 
 @app.route('/Question/<int:Q_id>',methods=["POST","GET"])
 def Question(Q_id):

@@ -105,20 +105,6 @@ def GetAnswer(A_id):
     conn.close()
     return {"Ans":Ans[0],"Com":Com}
 
-def DeleteQuestion(Q_id):
-    conn=sqlite3.connect('quora.db')
-    cur=conn.cursor()
-    cur.execute("Delete from Questions where Q_id=?",(Q_id,))
-    conn.commit()
-    conn.close()
-
-def DeleteAnswer(A_id):
-    conn=sqlite3.connect('quora.db')
-    cur=conn.cursor()
-    cur.execute("Delete from Answer where A_id=?",(A_id,))
-    conn.commit()
-    conn.close()
-
 def InsertAns(Q_id,user_id,A_text,An):
     conn=sqlite3.connect('quora.db')
     cur=conn.cursor()
@@ -128,6 +114,14 @@ def InsertAns(Q_id,user_id,A_text,An):
     res=cur.fetchone()
     conn.close()
     return res[0]
+
+def InsertCom(A_id,user_id,C_Text,An):
+    arg=(A_id,user_id,C_Text,An)
+    conn=sqlite3.connect('quora.db')
+    cur=conn.cursor()
+    cur.execute("Insert into Comments(A_id,user_id,Text,Anonymous) values(?,?,?,?)",arg)
+    conn.commit()
+    conn.close()
 
 def UpVote_Answer(user_id,A_id):
     conn=sqlite3.connect('quora.db')
