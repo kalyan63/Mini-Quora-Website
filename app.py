@@ -80,7 +80,7 @@ def Question(Q_id):
             print("Answer is blank")
         return render_template('Question.html',Question=GetQuestion(Q_id),Get_File=GetFileLoc,get_Name=GetUserName)
     else:    
-        return render_template('Question.html',Answer=GetQuestion(Q_id),Get_File=GetFileLoc,get_Name=GetUserName)
+        return render_template('Question.html',Question=GetQuestion(Q_id),Get_File=GetFileLoc,get_Name=GetUserName)
 
 @app.route('/Question/UpVotes/<int:A_id>',methods=["POST","GET"])
 def UpVote(A_id):

@@ -2,7 +2,7 @@
 {% block Body %}
 <a href="{{url_for('Home')}}" class="btn btn-danger float-right">Go Back To Home</a>
 <div class="border bg-dark text-white">
-    {% if Answer['Ques'][3] == 1 %}
+    {% if Question['Ques'][3] == 1 %}
         <p>user: Ananymous<p>
     {% else %}
     <p><a href="/profile/{{Question['Ques'][1]}}" class="btn btn-info">{{get_Name(Question['Ques'][1])}}</a></p>
