@@ -1,13 +1,15 @@
 from flask import Flask,render_template,redirect,request,session
+from flask_mail import Mail, Message
 from datetime import datetime
 from Sql_Querries import Check_Follow, CheckUser,CheckMail,CheckLogin,\
-FollowUser, GetFileLoc, InsertFiles,InsertUser,DisplayQues,GetUserId,\
+FollowUser, GetFileLoc, Getemail, InsertFiles,InsertUser,DisplayQues,GetUserId,\
 GetUserDetails,GetUserMail,GetUserQues,GetUserAns,GetFollowId,InsertQues,GetQuestion,GetAnswer,InsertAns,\
-GetUserName, UnfollowUser,UserVoteAns,InsertCom,InsertFiles,GetFileLoc
+GetUserName, UnfollowUser,UpVote_Answer,DownVote,InsertCom,InsertFiles,GetFileLoc, getQuesUserID
 import os
 app=Flask(__name__)
 app.secret_key = "cn assignment safty key **&**"
 app.config['UPLOAD_FOLDER']='ImgFolder/'
+mail = Mail(app)
 
 @app.route('/')
 def index():
@@ -105,6 +107,18 @@ def Answer(A_id):
     else:
         return render_template('Answer.html',Ans_Com=GetAnswer(A_id),Get_File=GetFileLoc,get_Name=GetUserName)          
 
+app.config['MAIL_SERVER']='smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USERNAME'] = 'xyz@gmail.com' # _________________ADD YOUR EMAIL ID AND PASSWORD _____________
+app.config['MAIL_PASSWORD'] = '******' # _______________ADD YOUR EMAIL ID AND PASSWORD __________________
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
+app.config['MAIL_DEBUG'] = True
+app.config['MAIL_SUPPRESS_SEND'] = False
+app.config['TESTING'] = False
+
+mail = Mail(app)
+
 @app.route('/Question/<int:Q_id>',methods=["POST","GET"])
 def Question(Q_id):
     if(request.method=="POST"):
@@ -112,7 +126,12 @@ def Question(Q_id):
         An=int(request.form.get('anonymous',0))
         file=request.files['file']
         if(A_txt):
-            A_id=InsertAns(Q_id,session['UserId'],A_txt,An)
+            A_id =InsertAns(Q_id,session['UserId'],A_txt,An)
+            user = getQuesUserID(Q_id,session['UserId'],A_txt)
+            r = Getemail(int(user[0]))
+            msg = Message( 'Hello from mini-quora!', sender ='chiluverupreeti@gmail.com', recipients = [str(r[0])])
+            msg.body = 'Hello!! You got a message from Mini-quora! Your question has been answered'
+            mail.send(msg)
             if(file):
                 f_path=os.path.join(app.config['UPLOAD_FOLDER'],file.filename)
                 file.save("static/"+f_path)
