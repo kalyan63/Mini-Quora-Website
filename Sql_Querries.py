@@ -230,4 +230,20 @@ def GetFileLoc(A_id):
     if(res):
         return res[0]
     else:
-        return None    
+        return None   
+    
+def getQuesUserID(Q_id,user_id,A_text):
+    conn=sqlite3.connect('quora.db')
+    cur=conn.cursor()
+    cur.execute("Select user_id from Questions where Q_id=?",(Q_id,))
+    data = cur.fetchall()[0]
+    conn.close()
+    return(data)
+
+def Getemail(user_id):
+    conn = sqlite3.connect('quora.db') 
+    cur = conn.cursor() 
+    cur.execute("select Email from User where user_id=?",(user_id,)) 
+    data = cur.fetchall()[0]
+    conn.close()
+    return(data)   
