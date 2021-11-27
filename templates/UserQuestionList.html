@@ -1,0 +1,18 @@
+{% extends "Base.html" %}
+{% block Body %}
+{%if Aut[0] %}
+    <h3> The Question asked by Me: </h3>
+{% else %}
+    <h3> The Question asked by {{Aut[1]}} are: </h3>
+{% endif %}        
+<div class="container">
+    {% for ques in Questions %}
+    <div class="border bg-dark text-white">
+        <p>{{ques[1]}}</p>
+        <p>{{ques[2]}}</p>
+        <p><a href="/Question/{{ques[0]}}">View Answer</a></p>
+        <br>
+    </div>
+    {% endfor %}
+</div>
+{% endblock Body %}

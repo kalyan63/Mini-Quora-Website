@@ -7,6 +7,7 @@
     {% else %}
     <p><a href="/profile/{{Ans_Com['Ans'][2]}}" class="btn btn-info">{{get_Name(Ans_Com['Ans'][2])}}</a></p>
     {% endif %}
+    <p><a href="/Question/{{Ans_Com['Ans'][1]}}">View Question</a></p>
     <p>{{Ans_Com['Ans'][3]}}</p>
     <p>{{Ans_Com['Ans'][6]}}</p>
     {%if Get_File(Ans_Com['Ans'][0])%}

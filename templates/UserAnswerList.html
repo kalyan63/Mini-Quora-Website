@@ -1,0 +1,18 @@
+{% extends "Base.html" %}
+{% block Body %}
+{%if Aut[0] %}
+    <h3> My Answers are: </h3>
+{% else %}
+    <h3> The Answers of {{Aut[1]}} are: </h3>
+{% endif %} 
+<div class="container">
+    {% for Ans in Answers %}
+    <div class="border bg-dark text-white">
+        <p>{{Ans[2]}}</p>
+        <p>{{Ans[3]}}</p>
+        <p><a href="/Answer/{{Ans[0]}}">View Answer</a></p>
+        <br>
+    </div>
+    {% endfor %}
+</div>
+{% endblock Body %}

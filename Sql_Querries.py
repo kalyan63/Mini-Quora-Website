@@ -98,6 +98,29 @@ def GetUserDetails(U_id):
     conn.close()
     return res[0]
 
+def GetUserQues(U_id):
+    conn = sqlite3.connect('quora.db') 
+    cur = conn.cursor() 
+    cur.execute("select Q_id,Q_text,Date from Questions where user_id=? order by Date Desc",(U_id,)) 
+    data = cur.fetchall()  
+    conn.close()
+    return(data)
+
+def GetUserAns(U_id):
+    conn = sqlite3.connect('quora.db') 
+    cur = conn.cursor() 
+    cur.execute("select A_id,Q_id,A_text,Date from Answer where user_id=? order by Date Desc",(U_id,)) 
+    data = cur.fetchall()  
+    conn.close()
+    return(data)
+def GetFollowId(U_id):
+    conn=sqlite3.connect('quora.db')
+    cur=conn.cursor()
+    cur.execute("Select follow_id from Follow where user_id = ?",(U_id,))
+    data = cur.fetchall()  
+    conn.close()
+    return(data)
+
 def DisplayQues(): 
     conn = sqlite3.connect('quora.db') 
     cur = conn.cursor() 

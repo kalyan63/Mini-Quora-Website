@@ -2,7 +2,7 @@ from flask import Flask,render_template,redirect,request,session
 from datetime import datetime
 from Sql_Querries import Check_Follow, CheckUser,CheckMail,CheckLogin,\
 FollowUser, GetFileLoc, InsertFiles,InsertUser,DisplayQues,GetUserId,\
-GetUserDetails,GetUserMail,InsertQues,GetQuestion,GetAnswer,InsertAns,\
+GetUserDetails,GetUserMail,GetUserQues,GetUserAns,GetFollowId,InsertQues,GetQuestion,GetAnswer,InsertAns,\
 GetUserName, UnfollowUser,UpVote_Answer,DownVote,InsertCom,InsertFiles,GetFileLoc
 import os
 app=Flask(__name__)
@@ -65,7 +65,7 @@ def Profile(user_Id):
     if(user_Id!=session['UserId']):
         return render_template('Profile.html',user=GetUserDetails(user_Id),foll=Check_Follow(session['UserId'],user_Id))
     else:    
-        return render_template('Profile.html',user=GetUserDetails(user_Id))
+        return render_template('Profile.html',user=GetUserDetails(user_Id),get_Name=GetUserName,F_ID=GetFollowId(user_Id))
 
 @app.route('/profile/follow/<int:user_Id>')
 def Follow(user_Id):
@@ -76,6 +76,20 @@ def Follow(user_Id):
 def UnFollow(user_Id):
     UnfollowUser(session['UserId'],user_Id)
     return render_template('Profile.html',user=GetUserDetails(user_Id),foll=Check_Follow(session['UserId'],user_Id))
+
+@app.route('/profile/Question/<int:user_id>')
+def UserQuestionList(user_id):
+    Aut=[]
+    Aut.append(session['UserId']==user_id)
+    Aut.append(GetUserName(user_id))
+    return render_template('UserQuestionList.html',Questions=GetUserQues(user_id),Aut=Aut)
+
+@app.route('/profile/Answer/<int:user_id>')
+def UserAnswerList(user_id):
+    Aut=[]
+    Aut.append(session['UserId']==user_id)
+    Aut.append(GetUserName(user_id))
+    return render_template('UserAnswerList.html',Answers=GetUserAns(user_id),Aut=Aut)
 
 @app.route('/Answer/<int:A_id>',methods=["POST","GET"])
 def Answer(A_id):

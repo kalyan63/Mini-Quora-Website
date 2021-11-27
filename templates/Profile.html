@@ -6,7 +6,6 @@
 {%else%}
     <h3 class="text-center">Other User's Profile page<h3>
 {%endif%}    
-
 <a href="{{url_for('Home')}}" class="btn btn-danger float-right">Go Back To Home</a>
 <div class="border bg-dark text-white">
 <div class="container">
@@ -14,14 +13,14 @@
         {%if user[0] == session['UserId'] %}
             <tr><td>username : {{user[1]}}</td></tr>
             <tr><td>email : {{user[2]}}</td></tr>
-            <tr><td><a href="/UserQuestionList/{{user[0]}}">View posted questions</a></td></tr>
-            <tr><td><a href="/UserAnswerList/{{user[0]}}">View posted answers</a></td></tr>
+            <tr><td><a href="{{url_for('UserQuestionList',user_id=user[0])}}">View posted questions</a></td></tr>
+            <tr><td><a href="{{url_for('UserAnswerList',user_id=user[0])}}">View posted answers</a></td></tr>
         {%else%}
             <tr><td>username : {{user[1]}}</td></tr>
             <tr><td>email : {{user[2]}}</td></tr>
             {%if foll == 1 %}
-                <tr><td><a href="/UserQuestionList/{{user[0]}}">View posted questions</a></td></tr>
-                <tr><td><a href="/UserAnswerList/{{user[0]}}">View posted answers</a></td></tr>
+                <tr><td><a href="{{url_for('UserQuestionList',user_id=user[0])}}">View posted questions</a></td></tr>
+                <tr><td><a href="{{url_for('UserAnswerList',user_id=user[0])}}">View posted answers</a></td></tr>
                 <p>You are Following this User, click to unFollow</p>
                 <a href="{{url_for('UnFollow',user_Id=user[0])}}" class="btn btn-danger float-right">UnFollow</a>
             {%else%}
@@ -30,5 +29,14 @@
         {%endif%}
     </table>
 </div>
+</div>
+
+<div class="container">
+    {%if user[0] == session['UserId'] %}
+        <p>User I'm Following are: </p>
+        {%for prof in F_ID%}
+            <p><a href="/profile/{{prof[0]}}" class="btn btn-info">{{get_Name(prof[0])}}</a></p>
+        {% endfor %}
+    {%endif%}
 </div>
 {% endblock%}
