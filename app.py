@@ -4,7 +4,7 @@ from datetime import datetime
 from Sql_Querries import Check_Follow, CheckUser,CheckMail,CheckLogin,\
 FollowUser, GetFileLoc, Getemail, InsertFiles,InsertUser,DisplayQues,GetUserId,\
 GetUserDetails,GetUserMail,GetUserQues,GetUserAns,GetFollowId,InsertQues,GetQuestion,GetAnswer,InsertAns,\
-GetUserName, UnfollowUser,UpVote_Answer,DownVote,InsertCom,InsertFiles,GetFileLoc, getQuesUserID
+GetUserName, UnfollowUser,InsertCom,InsertFiles,GetFileLoc, getQuesUserID
 import os
 app=Flask(__name__)
 app.secret_key = "cn assignment safty key **&**"
