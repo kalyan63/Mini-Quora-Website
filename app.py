@@ -3,7 +3,7 @@ from datetime import datetime
 from Sql_Querries import Check_Follow, CheckUser,CheckMail,CheckLogin,\
 FollowUser, GetFileLoc, InsertFiles,InsertUser,DisplayQues,GetUserId,\
 GetUserDetails,GetUserMail,GetUserQues,GetUserAns,GetFollowId,InsertQues,GetQuestion,GetAnswer,InsertAns,\
-GetUserName, UnfollowUser,UpVote_Answer,DownVote,InsertCom,InsertFiles,GetFileLoc
+GetUserName, UnfollowUser,UserVoteAns,InsertCom,InsertFiles,GetFileLoc
 import os
 app=Flask(__name__)
 app.secret_key = "cn assignment safty key **&**"
@@ -125,10 +125,13 @@ def Question(Q_id):
 
 @app.route('/Question/UpVotes/<int:A_id>',methods=["POST","GET"])
 def UpVote(A_id):
-    pass
+    UserVoteAns(session['UserId'],A_id,1)
+    return render_template('Answer.html',Ans_Com=GetAnswer(A_id),Get_File=GetFileLoc,get_Name=GetUserName)
+
 @app.route('/Question/DownVotes/<int:A_id>',methods=["POST","GET"])
 def DownVote(A_id):
-    pass
+    UserVoteAns(session['UserId'],A_id,0)
+    return render_template('Answer.html',Ans_Com=GetAnswer(A_id),Get_File=GetFileLoc,get_Name=GetUserName)
 
 if __name__=="__main__":
     app.run(debug=True)

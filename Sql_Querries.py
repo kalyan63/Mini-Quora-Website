@@ -19,6 +19,14 @@ def CheckMail(Mail):
     conn.close()
     return(ct[0])
 
+def CheckVotes(A_id,user_id):
+    conn=sqlite3.connect('quora.db')
+    cur=conn.cursor()
+    cur.execute("Select Count(*) from Votes where A_id = ? and user_id= ?",(A_id,user_id))
+    ct=cur.fetchone()
+    conn.close()
+    return(ct[0])
+
 def Check_Follow(U_id,F_id):
     conn=sqlite3.connect('quora.db')
     cur=conn.cursor()
@@ -176,19 +184,35 @@ def InsertCom(A_id,user_id,C_Text,An):
     conn.commit()
     conn.close()
 
-def UpVote_Answer(user_id,A_id):
+def VoteCount(A_id,V_type):
     conn=sqlite3.connect('quora.db')
     cur=conn.cursor()
-    cur.execute("")
+    cur.execute("Select Count(*) from Votes where A_id = ? and vote_type = ?",(A_id,V_type))
+    ct=cur.fetchone()
+    conn.close()
+    return(ct[0])
+
+def UpdateVotes(A_id):
+    U_c=VoteCount(A_id,1)
+    D_c=VoteCount(A_id,0)
+    conn=sqlite3.connect('quora.db')
+    cur=conn.cursor()
+    cur.execute("Update Answer set Upvote_count=?, Downvote_count=? where A_id=?",(U_c,D_c,A_id)) 
     conn.commit()
     conn.close()
 
-def DownVote(user_id,A_id):
-    conn=sqlite3.connect('quora.db')
-    cur=conn.cursor()
-    cur.execute()
+def UserVoteAns(user_id,A_id,V_type):
+    if(CheckVotes(A_id,user_id)):
+        conn=sqlite3.connect('quora.db')
+        cur=conn.cursor()
+        cur.execute("Update Votes set vote_type=? where A_id=? and user_id=?",(V_type,A_id,user_id))
+    else:
+        conn=sqlite3.connect('quora.db')
+        cur=conn.cursor()
+        cur.execute("Insert into Votes(A_id,user_id,vote_type) values(?,?,?)",(A_id,user_id,V_type)) 
     conn.commit()
     conn.close()   
+    UpdateVotes(A_id)
 
 def InsertFiles(A_id,loc):
     conn=sqlite3.connect('quora.db')

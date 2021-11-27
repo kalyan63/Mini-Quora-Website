@@ -2,10 +2,7 @@ import sqlite3
 conn=sqlite3.connect('quora.db')
 cur=conn.cursor()
 # cur.execute('''Select name from sqlite_master where type='table';''')
-cur.execute('''Select * from User;''')
-res=cur.fetchall()
-for i in res:
-    print(i[0],i[1],i[4],i[5])
+cur.execute('''Select * from Votes;''')
 print(cur.fetchall())
 
 # import datetime
