@@ -4,7 +4,7 @@ from datetime import datetime
 from Sql_Querries import Check_Follow, CheckUser,CheckMail,CheckLogin,\
 FollowUser, GetFileLoc, Getemail, InsertFiles,InsertUser,DisplayQues,GetUserId,\
 GetUserDetails,GetUserMail,GetUserQues,GetUserAns,GetFollowId,InsertQues,GetQuestion,GetAnswer,InsertAns,\
-GetUserName, UnfollowUser,InsertCom,InsertFiles,GetFileLoc, getQuesUserID
+GetUserName, UnfollowUser,InsertCom,InsertFiles,GetFileLoc, UserVoteAns, getQuesUserID
 import os
 app=Flask(__name__)
 app.secret_key = "cn assignment safty key **&**"
@@ -109,8 +109,8 @@ def Answer(A_id):
 
 app.config['MAIL_SERVER']='smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
-app.config['MAIL_USERNAME'] = 'xyz@gmail.com' # _________________ADD YOUR EMAIL ID AND PASSWORD _____________
-app.config['MAIL_PASSWORD'] = '******' # _______________ADD YOUR EMAIL ID AND PASSWORD __________________
+app.config['MAIL_USERNAME'] = 'chiluverupreeti@gmail.com' # _________________ADD YOUR EMAIL ID AND PASSWORD _____________
+app.config['MAIL_PASSWORD'] = 'pReeticH23' # _______________ADD YOUR EMAIL ID AND PASSWORD __________________
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 app.config['MAIL_DEBUG'] = True
