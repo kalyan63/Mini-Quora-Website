@@ -1,10 +1,14 @@
 from flask import Flask,render_template,redirect,request,session
 from datetime import datetime
-from Sql_Querries import CheckUser,CheckMail,CheckLogin, GetFileLoc, InsertFiles,InsertUser,DisplayQues,GetUserId,GetUserMail,InsertQues,GetQuestion,GetAnswer,InsertAns,GetUserName,UpVote_Answer,DownVote,InsertCom,InsertFiles,GetFileLoc
+from Sql_Querries import Check_Follow, CheckUser,CheckMail,CheckLogin,\
+FollowUser, GetFileLoc, InsertFiles,InsertUser,DisplayQues,GetUserId,\
+GetUserDetails,GetUserMail,InsertQues,GetQuestion,GetAnswer,InsertAns,\
+GetUserName, UnfollowUser,UpVote_Answer,DownVote,InsertCom,InsertFiles,GetFileLoc
 import os
 app=Flask(__name__)
 app.secret_key = "cn assignment safty key **&**"
 app.config['UPLOAD_FOLDER']='ImgFolder/'
+
 @app.route('/')
 def index():
     return render_template('Login.html')
@@ -56,9 +60,22 @@ def Logout():
     session.pop('UserId',None)
     return render_template('Login.html')
 
-@app.route('/Profile')
-def Profile():
-    return render_template('Profile.html',get_Mail=GetUserMail)
+@app.route('/profile/<int:user_Id>')
+def Profile(user_Id):
+    if(user_Id!=session['UserId']):
+        return render_template('Profile.html',user=GetUserDetails(user_Id),foll=Check_Follow(session['UserId'],user_Id))
+    else:    
+        return render_template('Profile.html',user=GetUserDetails(user_Id))
+
+@app.route('/profile/follow/<int:user_Id>')
+def Follow(user_Id):
+    FollowUser(session['UserId'],user_Id)
+    return render_template('Profile.html',user=GetUserDetails(user_Id),foll=Check_Follow(session['UserId'],user_Id))
+
+@app.route('/profile/unfollow/<int:user_Id>')
+def UnFollow(user_Id):
+    UnfollowUser(session['UserId'],user_Id)
+    return render_template('Profile.html',user=GetUserDetails(user_Id),foll=Check_Follow(session['UserId'],user_Id))
 
 @app.route('/Answer/<int:A_id>',methods=["POST","GET"])
 def Answer(A_id):

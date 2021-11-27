@@ -19,6 +19,28 @@ def CheckMail(Mail):
     conn.close()
     return(ct[0])
 
+def Check_Follow(U_id,F_id):
+    conn=sqlite3.connect('quora.db')
+    cur=conn.cursor()
+    cur.execute("Select Count(*) from Follow where user_id = ? and follow_id = ?",(U_id,F_id))
+    ct=cur.fetchone()
+    conn.close()
+    return(ct[0])
+
+def FollowUser(U_id,F_id):
+    conn=sqlite3.connect('quora.db')
+    cur=conn.cursor()
+    cur.execute("Insert into Follow values(?,?,?)",(U_id,F_id,str(datetime.now())))
+    conn.commit()
+    conn.close()
+
+def UnfollowUser(U_id,F_id):
+    conn=sqlite3.connect('quora.db')
+    cur=conn.cursor()
+    cur.execute("Delete from Follow where user_id = ? and follow_id = ?",(U_id,F_id))
+    conn.commit()
+    conn.close()
+    
 def InsertUser(Uname,Mail,Password):
     salt=os.urandom(8)
     hash=hashlib.pbkdf2_hmac('sha256', Password.encode('utf-8'), salt, 100000)
@@ -65,6 +87,14 @@ def GetUserMail(U_id):
     cur=conn.cursor()
     cur.execute("Select Email from User where user_id=?",(U_id,))
     res=cur.fetchone()
+    conn.close()
+    return res[0]
+
+def GetUserDetails(U_id):
+    conn=sqlite3.connect('quora.db')
+    cur=conn.cursor()
+    cur.execute("select user_id,user_name,email from User where user_id = ?", (U_id,))
+    res=cur.fetchall()
     conn.close()
     return res[0]
 
